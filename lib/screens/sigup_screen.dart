@@ -1,5 +1,4 @@
 import 'package:chat_app/export_all.dart';
-import 'package:flutter/material.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
