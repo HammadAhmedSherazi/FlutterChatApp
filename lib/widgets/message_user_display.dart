@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 import '../export_all.dart';
 
 class UserMessageDisplay extends StatelessWidget {
