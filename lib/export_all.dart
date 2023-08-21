@@ -2,6 +2,7 @@
 export 'screens/splash_screen.dart';
 export 'screens/login_screen.dart';
 export 'screens/sigup_screen.dart';
+export 'screens/home_screen.dart';
 
 
 
@@ -20,3 +21,6 @@ export 'package:chat_app/utils/colors.dart';
 //WIDGETS
 export '../widgets/textfield_widget.dart';
 export '../widgets/button_widget.dart';
+export '../widgets/page_template2.dart';
+export '../widgets/online_user_widget.dart';
+

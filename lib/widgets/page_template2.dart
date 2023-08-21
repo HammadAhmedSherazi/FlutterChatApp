@@ -1,15 +1,18 @@
+import 'package:flutter/gestures.dart';
+
 import '../export_all.dart';
 
-class PageTemplate1 extends StatefulWidget {
+class PageTemplate2 extends StatefulWidget {
    final List<dynamic> ? child;
    final Widget ? bottomText;
-   const PageTemplate1({super.key, this.child, this.bottomText});
+   final AppBar ? appBar;
+   const PageTemplate2({super.key, this.child, this.bottomText, this.appBar});
 
   @override
-  State<PageTemplate1> createState() => _PageTemplate1State();
+  State<PageTemplate2> createState() => _PageTemplate2State();
 }
 
-class _PageTemplate1State extends State<PageTemplate1> {
+class _PageTemplate2State extends State<PageTemplate2> {
   @override
   Widget build(BuildContext context) {
     return  Container(
@@ -19,16 +22,15 @@ class _PageTemplate1State extends State<PageTemplate1> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         // bottomNavigationBar: widget.bottomText,
+        appBar: widget.appBar,
         body: Stack(
           alignment: Alignment.center,
           children: [
-            Positioned(
-              top: 30,
-              child: Image.asset('assets/appIcon.png', width: 120, height: 120,)),
+           
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                height: MediaQuery.sizeOf(context).height * 0.73,
+                height: MediaQuery.sizeOf(context).height * 0.83,
                 padding: const EdgeInsets.all(15.0),
 
                 decoration:   BoxDecoration(
@@ -46,18 +48,17 @@ class _PageTemplate1State extends State<PageTemplate1> {
                 ),
                 child: ListView(
                   shrinkWrap: true,
+                  clipBehavior: Clip.none,
                   children: [
-                    Image.asset('assets/chitChat.png', width: 70, height: 70,),
-                    10.verticalSpace,
-                    ...widget.child!
+                    
+                    
+                    ...widget.child ?? []
                   ],
                 ),
               ),
             ),
             
-            Positioned(
-              bottom: 30,
-              child: widget.bottomText!)
+         
           ],
         ),
       ),

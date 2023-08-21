@@ -50,7 +50,7 @@ class _SignupScreenState extends State<SignupScreen> {
           ),),
           GestureDetector(
             onTap: ()=>Navigator.of(context).pop(),
-            child: Text('Signup', style: TextStyle(
+            child: Text('Login', style: TextStyle(
               color: ColorsApp.kButtonColor,
               fontSize: 11.sp,
               decoration: TextDecoration.underline

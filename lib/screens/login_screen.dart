@@ -29,12 +29,12 @@ class _LoginScreenState extends State<LoginScreen> {
             fontSize: 11.sp
           ),),
           GestureDetector(
-            onTap: ()=>Navigator.pushNamedAndRemoveUntil(context, "/SignupScreen", (route) => false),
+            onTap: ()=>Navigator.pushNamed(context, "/SignupScreen"),
             child: Text('Signup', style: TextStyle(
               color: ColorsApp.kButtonColor,
               fontSize: 11.sp,
               decoration: TextDecoration.underline
-            ),),
+            ),), 
           )
         ],
       ),
@@ -52,6 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         20.verticalSpace,
         CustomButtonAndroid(
+          onTap: ()=>Navigator.pushNamed(context, "/HomeScreen"),
           height: 40.h,
           width: 362.w,
           buttonText: "Login",

@@ -36,6 +36,17 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_screenutil: ^5.8.4
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  #  image_path: "assets/images/icon-128x128.png"
+  image_path_android: "assets/app_icon.png"
+  image_path_ios: "assets/app_icon.png"
+  android: "ic_launcher" # can specify file name here e.g. "ic_launcher"
+  ios: "My-Launcher-Icon" # can specify file name here e.g. "My-Launcher-Icon"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  remove_alpha_ios: true
+  background_color_ios: "#ffffff"
 
 dev_dependencies:
   flutter_test:

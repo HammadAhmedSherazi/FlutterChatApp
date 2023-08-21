@@ -2,6 +2,7 @@
 
 import 'export_all.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
             '/SplashScreen': (context) => const SplashScreen(),
             '/LoginScreen': (context) => const LoginScreen(),
             '/SignupScreen': (context) => const SignupScreen(),
-
+            '/HomeScreen': (context) => const HomeScreen(),
+            
           },
           // home: const MyHomePage(title: 'Flutter Demo Home Page'),
         );
