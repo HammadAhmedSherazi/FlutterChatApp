@@ -9,7 +9,8 @@ export 'screens/home_screen.dart';
 //PACKAGES
 export 'package:flutter/material.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';
-
+export 'package:firebase_core/firebase_core.dart';
+export 'firebase_options.dart';
 
 //UTILS
 export 'package:chat_app/utils/style.dart';
@@ -24,3 +25,5 @@ export '../widgets/button_widget.dart';
 export '../widgets/page_template2.dart';
 export '../widgets/online_user_widget.dart';
 
+//SERVICES
+export 'package:chat_app/services/firebase_app_service.dart';

@@ -1,9 +1,12 @@
 
 
+
 import 'export_all.dart';
 
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  FirebaseAppService.initializeFirebase();
   runApp(const MyApp());
 }
 
