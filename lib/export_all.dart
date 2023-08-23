@@ -9,7 +9,7 @@ export 'screens/home_screen.dart';
 //PACKAGES
 export 'package:flutter/material.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';
-export 'package:firebase_core/firebase_core.dart';
+export 'package:firebase_core/firebase_core.dart' ;
 export 'firebase_options.dart';
 
 //UTILS
