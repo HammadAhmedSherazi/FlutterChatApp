@@ -38,6 +38,7 @@ dependencies:
   flutter_screenutil: ^5.8.4
   flutter_launcher_icons: ^0.13.1
   firebase_core: ^2.15.1
+  firebase_auth: ^4.7.3
 
 flutter_launcher_icons:
   #  image_path: "assets/images/icon-128x128.png"

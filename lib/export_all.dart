@@ -11,11 +11,14 @@ export 'package:flutter/material.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:firebase_core/firebase_core.dart' ;
 export 'firebase_options.dart';
+export 'package:firebase_auth/firebase_auth.dart';
+
 
 //UTILS
 export 'package:chat_app/utils/style.dart';
 export 'package:chat_app/widgets/page_template1.dart';
 export 'package:chat_app/utils/colors.dart';
+export 'package:chat_app/utils/global.dart';
 
 
 

@@ -20,44 +20,67 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    return  PageTemplate1(
-      bottomText: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Do have not signup account? ", style: TextStyle(
-            color: Colors.black,
-            fontSize: 11.sp
-          ),),
-          GestureDetector(
-            onTap: ()=>Navigator.pushNamed(context, "/SignupScreen"),
-            child: Text('Signup', style: TextStyle(
-              color: ColorsApp.kButtonColor,
-              fontSize: 11.sp,
-              decoration: TextDecoration.underline
-            ),), 
+    return  Form(
+      key: AppConstant.formKeyList[1],
+      child: PageTemplate1(
+        bottomText: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Do have not signup account? ", style: TextStyle(
+              color: Colors.black,
+              fontSize: 11.sp
+            ),),
+            GestureDetector(
+              onTap: ()=>Navigator.pushNamed(context, "/SignupScreen"),
+              child: Text('Signup', style: TextStyle(
+                color: ColorsApp.kButtonColor,
+                fontSize: 11.sp,
+                decoration: TextDecoration.underline
+              ),), 
+            )
+          ],
+        ),
+        child: [
+          CustomTextField(
+            controller: emailTextController,
+            hintText: "Enter a email",
+            validator: (text) {
+                if (text == "") {
+                  return "Please enter a email";
+                } else if (!(AppConstant.isEmail(text!))) {
+                  return "Please enter a valid email";
+                } else {
+                  return null;
+                }
+              },
+            isPassword: false,
+          ),
+          10.verticalSpace,
+          CustomTextField(
+            controller: passwordTextController,
+            hintText: "Enter a password",
+            validator: (text) {
+                if (text == "") {
+                  return "Please enter a password";
+                } else {
+                  return null;
+                }
+                },
+            isPassword: true,
+          ),
+          20.verticalSpace,
+          CustomButtonAndroid(
+            onTap: (){
+              if(AppConstant.formKeyList[1].currentState!.validate()){
+                Navigator.pushNamed(context, "/HomeScreen");
+              }
+            },
+            height: 40.h,
+            width: 362.w,
+            buttonText: "Login",
           )
         ],
       ),
-      child: [
-        CustomTextField(
-          controller: emailTextController,
-          hintText: "Enter a email",
-          isPassword: false,
-        ),
-        10.verticalSpace,
-        CustomTextField(
-          controller: passwordTextController,
-          hintText: "Enter a password",
-          isPassword: true,
-        ),
-        20.verticalSpace,
-        CustomButtonAndroid(
-          onTap: ()=>Navigator.pushNamed(context, "/HomeScreen"),
-          height: 40.h,
-          width: 362.w,
-          buttonText: "Login",
-        )
-      ],
     );
   }
 }

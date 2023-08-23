@@ -1,9 +1,17 @@
+import 'package:flutter/services.dart';
+
 import 'export_all.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  FirebaseAppService.initializeFirebase();
-  runApp(const MyApp());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]).then((value) => {
+    
+  FirebaseAppService.initializeFirebase(),
+  runApp(const MyApp())
+  });
 }
 
 class MyApp extends StatelessWidget {
