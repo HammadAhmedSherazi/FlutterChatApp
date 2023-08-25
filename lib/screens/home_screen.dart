@@ -8,9 +8,16 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  PageTemplate2(
+      
+      drawer: appdrawer(context),
+      // key: AppConstant.formKeyList[2],
       appBar: AppBar(
+
         backgroundColor: Colors.transparent,
-        leading: IconButton(onPressed: (){}, icon: const Icon(Icons.person, color: Colors.white,)),
+        clipBehavior: Clip.none,
+        leading: Builder(builder: (context) => IconButton(onPressed: (){
+          Scaffold.of(context).openDrawer();
+        }, icon: const Icon(Icons.person, color: Colors.white,)),),
         title: Text("Chit Chat", style: AppStyle.titleText,),
         centerTitle: true,
         actions: [
@@ -49,4 +56,20 @@ class HomeScreen extends StatelessWidget {
       ],
     );
   }
+  Drawer appdrawer(BuildContext context){
+      return Drawer(
+      clipBehavior: Clip.none,
+      backgroundColor: Colors.white,
+      width: MediaQuery.sizeOf(context).width * 0.7, 
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(50)
+        ),
+    
+         
+      ),
+    );
+  }
+  
+  
 }

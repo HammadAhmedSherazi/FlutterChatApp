@@ -6,7 +6,9 @@ class PageTemplate2 extends StatefulWidget {
    final List<dynamic> ? child;
    final Widget ? bottomText;
    final AppBar ? appBar;
-   const PageTemplate2({super.key, this.child, this.bottomText, this.appBar});
+   final Drawer ? drawer;
+   final GlobalKey<ScaffoldState> ? formkey;
+   const PageTemplate2({super.key, this.child, this.bottomText, this.appBar, this.drawer, this.formkey});
 
   @override
   State<PageTemplate2> createState() => _PageTemplate2State();
@@ -20,6 +22,9 @@ class _PageTemplate2State extends State<PageTemplate2> {
       height: double.infinity,
       decoration: AppStyle.pageDecoration,
       child: Scaffold(
+        drawerEnableOpenDragGesture: false,
+        key: widget.formkey,
+        drawer: widget.drawer,
         backgroundColor: Colors.transparent,
         // bottomNavigationBar: widget.bottomText,
         appBar: widget.appBar,

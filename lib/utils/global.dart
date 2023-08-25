@@ -2,7 +2,7 @@ import '../export_all.dart';
 
 class AppConstant {
   // static final formKey = GlobalKey<FormState>();
-  static List<GlobalObjectKey<FormState>> formKeyList = List.generate(2, (index) => GlobalObjectKey<FormState>(index));
+  static List<GlobalObjectKey<FormState>> formKeyList = List.generate(3, (index) => GlobalObjectKey<FormState>(index));
 
   //Email Validation Checker function
   static bool isEmail(String em) {
