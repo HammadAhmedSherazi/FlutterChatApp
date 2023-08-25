@@ -1,6 +1,10 @@
 import '../export_all.dart';
 
 class AppConstant {
+
+  //assets Path
+  static String imagePath = "assets/";
+
   // static final formKey = GlobalKey<FormState>();
   static List<GlobalObjectKey<FormState>> formKeyList = List.generate(3, (index) => GlobalObjectKey<FormState>(index));
 

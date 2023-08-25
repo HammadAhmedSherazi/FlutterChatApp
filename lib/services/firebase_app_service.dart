@@ -9,7 +9,7 @@ class FirebaseAppService {
   }
 }
 
-class FirebaseAuthenticationServices {
+class FirebaseAuthService {
   //Firebase Instance Initialize
   static FirebaseAuth auth = FirebaseAuth.instance;
 

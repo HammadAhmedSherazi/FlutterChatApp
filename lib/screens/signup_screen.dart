@@ -75,7 +75,8 @@ class _SignupScreenState extends State<SignupScreen> {
           CustomButtonAndroid(
             onTap: (){
               if(AppConstant.formKeyList[0].currentState!.validate()){
-                FirebaseAuthenticationServices.signUpwithEmailPassword(emailTextController.text.trim(), passwordTextController.text.trim()).then((value) {
+                FocusScope.of(context).unfocus();
+                FirebaseAuthService.signUpwithEmailPassword(emailTextController.text.trim(), passwordTextController.text.trim()).then((value) {
                   if(value != null){
                       Navigator.of(context).pop();
                   }

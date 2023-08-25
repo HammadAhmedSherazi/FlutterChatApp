@@ -13,6 +13,11 @@ class AppStyle{
           color: Colors.black87,
           fontSize: 18.sp,
           fontWeight: FontWeight.w500
+        ); 
+  static final TextStyle headStyle3 = TextStyle(
+          color: Colors.black87,
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w500
         );  
   //DECORATION
   static BoxDecoration pageDecoration = const BoxDecoration(
