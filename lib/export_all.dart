@@ -3,6 +3,7 @@ export 'screens/splash_screen.dart';
 export 'screens/login_screen.dart';
 export 'screens/signup_screen.dart';
 export 'screens/home_screen.dart';
+export 'screens/profile_screen.dart';
 
 
 

@@ -99,19 +99,31 @@ class HomeScreen extends StatelessWidget {
               children: [
                  CircleAvatar(
                   radius: 60,
-                  backgroundImage: AssetImage('${AppConstant.imagePath}user_avatar.png'),
+                  backgroundImage: AssetImage('${AppConstant.imagePath}user_avatar.jpg'),
                   
                   // backgroundColor: ColorsApp.kButtonColor,
                 ),
                 Positioned(
-                  top: 20,
-                  right: -50,
-                  child: IconButton(onPressed: (){}, icon: const Icon(Icons.edit)))
+                  bottom: 50,
+                  right: -25,
+                  child: RawMaterialButton(
+                    shape: const CircleBorder(),
+                    onPressed:() {
+                    Navigator.pushNamed(context, '/ProfileScreen');
+                  },
+                  child: CircleAvatar(
+                    radius: 20.r,
+                    backgroundColor: ColorsApp.kButtonColor,
+                    child: Icon(Icons.edit, color: Colors.white, size: 20.r,),
+                  ),
+                  ) 
+                  )
               ],
             )),
           Expanded(
             flex: 6,
             child: ListView.builder(
+              shrinkWrap: true,
               itemCount: DrawerItem.itemList.length,
               itemBuilder: (context, index) => DrawerItem.itemList[index],),
           ),
@@ -132,7 +144,7 @@ class HomeScreen extends StatelessWidget {
             child:   ListTile(
               onTap: (){
                 showAdaptiveDialog(context: context, builder: (context) {
-                return  AlertDialog(
+                return  WillPopScope(onWillPop: ()async=>false, child: AlertDialog(
                   alignment: Alignment.center,
                   contentPadding: const  EdgeInsets.only(
                     bottom: 0,
@@ -206,8 +218,7 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                     
-                );
-              },);
+                )); },);
             
               },
               visualDensity:  const VisualDensity(

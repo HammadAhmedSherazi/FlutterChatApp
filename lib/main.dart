@@ -38,6 +38,8 @@ class MyApp extends StatelessWidget {
             '/LoginScreen': (context) => const LoginScreen(),
             '/SignupScreen': (context) => const SignupScreen(),
             '/HomeScreen': (context) => const HomeScreen(),
+            '/ProfileScreen': (context) => const ProfileScreen(),
+
             
           },
           // home: const MyHomePage(title: 'Flutter Demo Home Page'),
