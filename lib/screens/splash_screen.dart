@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:chat_app/export_all.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -9,10 +10,11 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
-   AnimationController? animationController;
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  AnimationController? animationController;
 
-   @override
+  @override
   void initState() {
     super.initState();
     animationController = AnimationController(
@@ -22,7 +24,14 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     animationController?.forward();
     Timer(const Duration(seconds: 3), () {
       // Navigate to the next screen after the animation completes
-      Navigator.of(context).pushNamedAndRemoveUntil('/LoginScreen', (route) => false);
+      User? user = FirebaseAuthenticationServices.auth.currentUser;
+      if (user != null) {
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/HomeScreen', (route) => false);
+      } else {
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/LoginScreen', (route) => false);
+      }
     });
   }
 
@@ -34,21 +43,27 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-      height: double.infinity,
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        image: DecorationImage(image: AssetImage('assets/bg.jpg'), fit: BoxFit.cover)
-      ),
-      child:  Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-            AnimatedBuilder(animation: animationController!, builder: (context, child) => Transform.scale(
-              scale: animationController!.value,
-              child: Image.asset('assets/appIcon.png', width: 180, height: 180,),
-            ),)
-
-        ],
-      ));
+    return Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/bg.jpg'), fit: BoxFit.cover)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AnimatedBuilder(
+              animation: animationController!,
+              builder: (context, child) => Transform.scale(
+                scale: animationController!.value,
+                child: Image.asset(
+                  'assets/appIcon.png',
+                  width: 180,
+                  height: 180,
+                ),
+              ),
+            )
+          ],
+        ));
   }
 }

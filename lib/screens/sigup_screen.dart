@@ -75,7 +75,14 @@ class _SignupScreenState extends State<SignupScreen> {
           CustomButtonAndroid(
             onTap: (){
               if(AppConstant.formKeyList[0].currentState!.validate()){
-                debugPrint("Validation work successfully");
+                FirebaseAuthenticationServices.signUpwithEmailPassword(emailTextController.text.trim(), passwordTextController.text.trim()).then((value) {
+                  if(value != null){
+                      Navigator.of(context).pop();
+                  }
+                  else{
+                    debugPrint("Something is Wrong");
+                  }
+                });
               }
               else{
                 debugPrint("Validation work is not successfully");
