@@ -72,13 +72,16 @@ class _LoginScreenState extends State<LoginScreen> {
           CustomButtonAndroid(
             onTap: (){
               if(AppConstant.formKeyList[1].currentState!.validate()){
+                AppConstant.showloader(context);
                 FocusScope.of(context).unfocus();
                 FirebaseAuthService.signInwithEmailPassword(emailTextController.text.trim(), passwordTextController.text.trim()).then((value) {
                   if(value != null){
-                    Navigator.pushReplacementNamed(context, "/HomeScreen");
+                    
+                    Navigator.pushNamedAndRemoveUntil(context, "/HomeScreen", (route) => false);
 
                   }
                   else{
+                    Navigator.of(context).pop();
                     debugPrint("Something is wrong");
                   }
                 });

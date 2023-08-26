@@ -13,6 +13,10 @@ export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:firebase_core/firebase_core.dart' ;
 export 'firebase_options.dart';
 export 'package:firebase_auth/firebase_auth.dart';
+export 'package:firebase_storage/firebase_storage.dart';
+export 'package:flutter_riverpod/flutter_riverpod.dart';
+export 'package:fluttertoast/fluttertoast.dart';
+export 'package:flutter_spinkit/flutter_spinkit.dart';
 
 
 //UTILS

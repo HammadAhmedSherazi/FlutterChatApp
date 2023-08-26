@@ -4,14 +4,16 @@ import 'export_all.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown
-  ]).then((value) => {
-    
-  FirebaseAppService.initializeFirebase(),
-  runApp(const MyApp())
-  });
+  SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
+      .then((value) => {
+            FirebaseAppService.initializeFirebase(),
+            runApp(
+              const ProviderScope(
+                child: MyApp(),
+              ),
+            )
+          });
 }
 
 class MyApp extends StatelessWidget {
@@ -39,8 +41,6 @@ class MyApp extends StatelessWidget {
             '/SignupScreen': (context) => const SignupScreen(),
             '/HomeScreen': (context) => const HomeScreen(),
             '/ProfileScreen': (context) => const ProfileScreen(),
-
-            
           },
           // home: const MyHomePage(title: 'Flutter Demo Home Page'),
         );

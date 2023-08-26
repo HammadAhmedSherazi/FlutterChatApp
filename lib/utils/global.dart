@@ -1,12 +1,14 @@
+import 'package:flutter/services.dart';
+
 import '../export_all.dart';
 
 class AppConstant {
-
   //assets Path
   static String imagePath = "assets/";
 
   // static final formKey = GlobalKey<FormState>();
-  static List<GlobalObjectKey<FormState>> formKeyList = List.generate(3, (index) => GlobalObjectKey<FormState>(index));
+  static List<GlobalObjectKey<FormState>> formKeyList =
+      List.generate(3, (index) => GlobalObjectKey<FormState>(index));
 
   //Email Validation Checker function
   static bool isEmail(String em) {
@@ -32,9 +34,36 @@ class AppConstant {
 //   RegExp regExp = RegExp(pattern);
 //   return regExp.hasMatch(password);
 // }
-static bool isStrongPassword(String password) {
-  String pattern = r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$';
-  RegExp regExp = RegExp(pattern);
-  return regExp.hasMatch(password);
-}
+  static bool isStrongPassword(String password) {
+    String pattern =
+        r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$';
+    RegExp regExp = RegExp(pattern);
+    return regExp.hasMatch(password);
+  }
+
+  //Message Alert 
+  static messageDialog(String msg) {
+    return Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: ColorsApp.kButtonColor,
+        textColor: Colors.white,
+        fontSize: 14.sp);
+  }
+
+  //Loader 
+  static final spinkit =  SpinKitDancingSquare(
+    color: ColorsApp.kButtonColor,
+    size: 50.r,
+  );
+
+  //loader ShowDialog
+  static showloader(BuildContext context){
+    return showDialog(context: context , builder: (context) => WillPopScope(child: spinkit, onWillPop:()async{
+      SystemNavigator.pop();
+      return true;
+    }),);
+  }
 }
