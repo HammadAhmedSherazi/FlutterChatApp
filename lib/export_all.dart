@@ -38,3 +38,7 @@ export '../widgets/profile_upload_widget.dart';
 
 //SERVICES
 export 'package:chat_app/services/firebase_app_service.dart';
+
+
+//MODEL
+export 'modules/user_model.dart';

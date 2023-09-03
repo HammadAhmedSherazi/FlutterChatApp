@@ -1,10 +1,13 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:chat_app/export_all.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String? imageUrl;
-  const ProfileScreen({super.key, this.imageUrl});
+  final bool? isEdit;
+  const ProfileScreen({super.key, this.imageUrl, this.isEdit});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -19,7 +22,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final ImagePicker picker = ImagePicker();
   String? selectImagePath;
 
- 
   @override
   void initState() {
     super.initState();
@@ -54,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               size: 18.r,
             )),
         title: Text(
-          "Edit Profile",
+          widget.isEdit != null ? "Edit Profile" : "Create Profile",
           style: AppStyle.titleText,
         ),
       ),
@@ -134,14 +136,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         30.verticalSpace,
         CustomButtonAndroid(
-          buttonText: "Save",
-          onTap: () {
-            FirebaseAppStorage.saveProfile(
-              !selectImagePath!.contains('https')  ? File(selectImagePath!) : null,
-                '${firstNameTextController.text.trim()} ${lastNameTextController.text.trim()}',
-                emailTextController.text,
-                context);
-            
+          buttonText: widget.isEdit == null ? "Save" : "Create",
+          onTap: () async {
+            if (widget.isEdit != null && widget.isEdit == false) {
+              FirebaseAppStorage.saveProfile(
+                  File(selectImagePath!),
+                  '${firstNameTextController.text.trim()} ${lastNameTextController.text.trim()}',
+                  emailTextController.text,
+                  context);
+            } else {
+               FirebaseAppStorage.getUserData(emailTextController.text).then((value) => debugPrint(
+                value.toString()));      
+            }
           },
           height: 40.h,
         )

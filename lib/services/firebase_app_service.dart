@@ -61,7 +61,7 @@ class FirebaseAppStorage {
   // final storageRef = FirebaseStorage.instance.ref();
 
   static final fireStore = FirebaseFirestore.instance;
-
+  static  String uid = FirebaseAuthService.auth.currentUser!.uid;
   static Future<String> uploadImage(File imageFile) async {
     String imageUrl = "";
     String fileName = imageFile.path.split('/').last;
@@ -76,20 +76,34 @@ class FirebaseAppStorage {
   static Future saveProfile(File ? imageFile, String username, email, BuildContext context)async{
     AppConstant.showloader(context);
       FirebaseAppStorage.uploadImage(imageFile!).then((value){
-      String uid = FirebaseAuthService.auth.currentUser!.uid;
+      
     fireStore.collection('Users').doc(uid).set({
       'userImageUrl' : value,
       'username' : username,
       'email' : email
     }).then((value) => {
-      Navigator.of(context).pop(),
-      AppConstant.messageDialog('User Profile Successfully updated')
+      FirebaseAppStorage.fireStore.collection('users').get().then((value) {
+        if(value.docs.isNotEmpty){
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const HomeScreen(),), (route) => false);
+        }
+            }     
+)
+      // AppConstant.messageDialog('User Profile Successfully updated')
 
     }).onError((error, stackTrace) => {
+      
       AppConstant.messageDialog(error.toString())
     });
     });
     
 
   }
+
+  //FETCH USER DATA
+  static Future<UserModel> getUserData(String email) async{
+    final snapshot = await fireStore.collection('users').where('email', isEqualTo:  email).get();
+    final userData = snapshot.docs.map((e) => UserModel.fromSnapshot(e)).single;
+    return userData;
+  }
+
 }

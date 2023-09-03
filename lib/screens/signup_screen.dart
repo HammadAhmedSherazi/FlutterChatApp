@@ -84,7 +84,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 FocusScope.of(context).unfocus();
                 FirebaseAuthService.signUpwithEmailPassword(emailTextController.text.trim(), passwordTextController.text.trim()).then((value) {
                   if(value != null){
-                      Navigator.of(context)..pop()..pop();
+                      FirebaseAppStorage.uid = value.uid;
+                      Navigator.popAndPushNamed(context, '/ProfileScreen');
                   }
                   else{
                     Navigator.of(context).pop();

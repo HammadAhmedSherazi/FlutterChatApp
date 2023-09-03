@@ -1,12 +1,13 @@
 import 'package:chat_app/widgets/message_user_display.dart';
-
 import '../export_all.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
+  // @override
+  
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return  PageTemplate2(
       
       drawer: appdrawer(context),
@@ -30,25 +31,6 @@ class HomeScreen extends StatelessWidget {
       child: [
         Text("Online Friends", style: AppStyle.headStyle2,),
         10.verticalSpace,
-        // SingleChildScrollView(
-        //   clipBehavior: Clip.none,
-          
-        //   padding: EdgeInsets.symmetric(
-        //     horizontal: 10.r
-        //   ),
-        //   scrollDirection: Axis.horizontal,
-        //   child: Row(
-        //     children: List.generate(5, (index) => Column(
-        //       mainAxisSize: MainAxisSize.min,
-        //       crossAxisAlignment: CrossAxisAlignment.center,
-        //       children: [
-        //         const OnlineUserWidget(),
-        //         10.verticalSpace,
-        //         Text("User name", style: AppStyle.headStyle3, maxLines: 2, overflow: TextOverflow.ellipsis,)
-        //       ],
-        //     )),
-        //   ),
-        // ),
         SizedBox(
           height: 100.h,
           child: ListView.separated(
@@ -99,7 +81,8 @@ class HomeScreen extends StatelessWidget {
               children: [
                  CircleAvatar(
                   radius: 60,
-                  backgroundImage: AssetImage('${AppConstant.imagePath}user_avatar.jpg'),
+                  backgroundImage: NetworkImage(''),
+                  onBackgroundImageError: (exception, stackTrace) => AssetImage('${AppConstant.imagePath}user_avatar.jpg'),
                   
                   // backgroundColor: ColorsApp.kButtonColor,
                 ),
@@ -109,7 +92,8 @@ class HomeScreen extends StatelessWidget {
                   child: RawMaterialButton(
                     shape: const CircleBorder(),
                     onPressed:() {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen(
+                    Navigator.push(context, MaterialPageRoute(builder: (context) =>const ProfileScreen(
+                      isEdit: true,
                       // imageUrl: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80',
                     ),));
                   },
