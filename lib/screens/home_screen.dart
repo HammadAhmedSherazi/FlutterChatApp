@@ -1,13 +1,16 @@
+import 'dart:developer';
+
+import 'package:chat_app/providers/user_info_provider.dart';
 import 'package:chat_app/widgets/message_user_display.dart';
 import '../export_all.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   // @override
   
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return  PageTemplate2(
       
       drawer: appdrawer(context),
@@ -73,7 +76,45 @@ class HomeScreen extends ConsumerWidget {
       ),
       child: Column(
         children: [
-           Expanded(
+           Consumer(builder: (context, ref, child) {
+            final AsyncValue userDataProvider = ref.watch(fetchUserProvider(FirebaseAppStorage.uid));
+             return userDataProvider.when(data: (data){
+              final user = UserModel.fromSnapshot(data);
+              log(user.toString());
+              return Expanded(
+            flex: 3,
+            child: Stack (
+              alignment: Alignment.center,
+              clipBehavior: Clip.none,
+              children: [
+                 CircleAvatar(
+                  radius: 60.r,
+                  backgroundImage: user.imageUrl != '' ?NetworkImage(user.imageUrl) as ImageProvider : AssetImage('${AppConstant.imagePath}user_avatar.jpg') ,
+                  onBackgroundImageError: (exception, stackTrace) => AssetImage('${AppConstant.imagePath}user_avatar.jpg'),
+                  
+                  // backgroundColor: ColorsApp.kButtonColor,
+                ),
+                Positioned(
+                  bottom: 50,
+                  right: -25,
+                  child: RawMaterialButton(
+                    shape: const CircleBorder(),
+                    onPressed:() {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) =>const ProfileScreen(
+                      isEdit: true,
+                      // imageUrl: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80',
+                    ),));
+                  },
+                  child: CircleAvatar(
+                    radius: 20.r,
+                    backgroundColor: ColorsApp.kButtonColor,
+                    child: Icon(Icons.edit, color: Colors.white, size: 20.r,),
+                  ),
+                  ) 
+                  )
+              ],
+            ));
+             }, error: (error, stackTrace) => Text(''), loading: () => Expanded(
             flex: 3,
             child: Stack (
               alignment: Alignment.center,
@@ -105,8 +146,9 @@ class HomeScreen extends ConsumerWidget {
                   ) 
                   )
               ],
-            )),
-          Expanded(
+            )),);
+           },),
+           Expanded(
             flex: 6,
             child: ListView.builder(
               shrinkWrap: true,

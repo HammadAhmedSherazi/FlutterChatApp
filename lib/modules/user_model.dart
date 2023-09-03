@@ -1,27 +1,20 @@
-// import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class UserModel{
-  // final String ? uid;
-  late final String ? username;
-  late final String ? imageUrl;
-  late final String ? email;
+class UserModel {
+  final String uid;
+  final String username;
+  final String imageUrl;
+  final String email;
 
-  UserModel(this.username, this.email, this.imageUrl);
+  UserModel(this.uid, this.username, this.imageUrl, this.email);
 
-  UserModel.fromJson(Map<String, dynamic>  data){
-    // uid = data['']
-    username = data['username'];
-    imageUrl = data['userImageUrl'];
-    email = data['email'];
-  }
-  UserModel.fromSnapshot(DocumentSnapshot <Map<String, dynamic>> doc){
-    final data = doc.data();
-    // uid = doc.id;
-    username = data?['username'];
-    imageUrl = data?['userImageUrl'];
-    email = data?['email'];
-
+  factory UserModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> doc) {
+    Map<String, dynamic> data = doc.data()  as Map<String, dynamic>;
+    return UserModel(
+      doc.id,
+      data['username'] ?? '', // Replace 'username' with the field name in your Firestore document
+      data['userImageUrl'] ?? '', // Replace 'userImageUrl' with the field name in your Firestore document
+      data['email'] ?? '', // Replace 'email' with the field name in your Firestore document
+    );
   }
 }
