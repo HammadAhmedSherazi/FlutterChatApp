@@ -65,19 +65,20 @@ class FirebaseAppStorage {
   static Future<String> uploadImage(File imageFile) async {
     String imageUrl = "";
     String fileName = imageFile.path.split('/').last;
-    final ref = storage.ref().child('users/ $fileName');
-    UploadTask uploadTask = ref.putFile(imageFile);
+    var ref = storage.ref().child('users/$fileName');
+    UploadTask uploadTask = ref.putFile(File(imageFile.path));
     TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
     await taskSnapshot.ref.getDownloadURL().then((value) => imageUrl = value);
     return imageUrl; 
+    // print(imageUrl);
   }
-
-  static Future saveProfile(File imageFile, String username, email, BuildContext context)async{
+ 
+  static Future saveProfile(File ? imageFile, String username, email, BuildContext context)async{
     AppConstant.showloader(context);
-    String url = await FirebaseAppStorage.uploadImage(imageFile);
-    String uid = FirebaseAuthService.auth.currentUser!.uid;
-    fireStore.collection('users').doc(uid).set({
-      'userImageUrl' : url,
+      FirebaseAppStorage.uploadImage(imageFile!).then((value){
+      String uid = FirebaseAuthService.auth.currentUser!.uid;
+    fireStore.collection('Users').doc(uid).set({
+      'userImageUrl' : value,
       'username' : username,
       'email' : email
     }).then((value) => {
@@ -87,6 +88,8 @@ class FirebaseAppStorage {
     }).onError((error, stackTrace) => {
       AppConstant.messageDialog(error.toString())
     });
+    });
+    
 
   }
 }
