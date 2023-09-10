@@ -1,8 +1,9 @@
 import 'dart:developer';
 import 'dart:io';
 
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/export_all.dart';
-import 'package:firebase_database/firebase_database.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String? imageUrl;
@@ -66,24 +67,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Stack(
             alignment: Alignment.center,
             children: [
+              if(selectImagePath != null && selectImagePath!.contains('http') )...[
+                
+              CachedNetworkImage(
+                
+                imageUrl: selectImagePath!, 
+                imageBuilder: (context, imageProvider) => CircleAvatar(
+                backgroundImage: imageProvider,
+                radius: 60.r,
+
+              ),
+              errorWidget: (context, url, error) => CircleAvatar(
+                backgroundImage: AssetImage('${AppConstant.imagePath}user_avatar.jpg'),
+                radius: 60.r,
+
+              ),
+              placeholder: (context, url) => CircleAvatar(
+                backgroundImage: AssetImage('${AppConstant.imagePath}user_avatar.jpg'),
+                radius: 60.r,
+
+              ),
+              )
+
+              ],
+              
               CircleAvatar(
                 radius: 60.r,
-                backgroundImage: selectImagePath != null
-                    ? selectImagePath!.contains('http')
-                        ? NetworkImage(selectImagePath!) as ImageProvider
-                        : FileImage(File(selectImagePath!))
+                backgroundImage: 
+               selectImagePath != null && !selectImagePath!.contains('http') ?  FileImage(File(selectImagePath!))
                     : null,
               ),
               Positioned(
                   bottom: (selectImagePath != null) ? 10 : null,
-                  right: (selectImagePath != null) ? -10 : null,
+                  right: (selectImagePath != null) ? -8 : null,
                   child: IconButton(
                       onPressed: () {
                         pickImage();
                       },
-                      icon: Icon(
-                        Icons.camera_alt_sharp,
-                        size: selectImagePath != null ? 28.r : 50.r,
+                      icon: CircleAvatar(
+                        radius: 20.r,
+                        backgroundColor: ColorsApp.kButtonColor,
+                        child: Icon(
+                          Icons.camera_alt_sharp,
+                          size: selectImagePath != null ? 22.r : 50.r,
+                          color: Colors.white,
+                        ),
                       )))
             ],
           ),

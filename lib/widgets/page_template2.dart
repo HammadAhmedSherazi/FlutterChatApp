@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 
 import '../export_all.dart';
 

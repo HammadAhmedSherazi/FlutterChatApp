@@ -99,11 +99,20 @@ class FirebaseAppStorage {
 
   }
 
-  //FETCH USER DATA
-  static Future<UserModel> getUserData(String email) async{
+  //FETCH LOGIN USER DATA
+  static Future<UserModel?> getUserData(String email) async{
     final snapshot = await fireStore.collection('users').where('email', isEqualTo:  email).get();
     final userData = snapshot.docs.map((e) => UserModel.fromSnapshot(e)).single;
     return userData;
+  }
+
+  //FETCH ALL USER DATA
+
+  static Future<List<UserModel?> ?> getAllUser(String email)async{
+    final snapshot = await fireStore.collection('users').where('email', isNotEqualTo: email).get();
+    final userList = snapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList();
+
+    return userList;
   }
 
 }

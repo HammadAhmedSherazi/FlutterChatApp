@@ -12,7 +12,10 @@ class UserMessageDisplay extends StatelessWidget {
               ),
               horizontalTitleGap:1.8 ,
               contentPadding: EdgeInsets.zero,
-              leading: const OnlineUserWidget(),
+              leading: const  OnlineUserWidget(
+                imageUrl: '',
+                isOnline: false,
+              ),
               title: Text("User name", style: AppStyle.headStyle2,),
               subtitle: const Text("last message..."),
               trailing: Column(

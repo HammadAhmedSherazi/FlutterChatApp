@@ -12,13 +12,20 @@ class UserInfoProvider extends StateNotifier<UserModel ?>{
 
 }
 
-final userInfoProvider = Provider.autoDispose<UserInfoProvider>((ref) => UserInfoProvider());
+// final userInfoProvider = Provider.autoDispose<UserInfoProvider>((ref) => UserInfoProvider());
 
 
-final fetchUserProvider = FutureProvider.family<dynamic , String>((ref, uid) async {
-  final userData = await FirebaseAppStorage.fireStore.collection('Users').doc(uid).get();
-    // final userData = snapshot.docs.map((e) => UserModel.fromSnapshot(e)).single;
+final fetchUserProvider = FutureProvider.family<UserModel , String>((ref, uid) async {
+  final snapshot = await FirebaseAppStorage.fireStore.collection('Users').doc(uid).get();
+    final userData = UserModel.fromSnapshot(snapshot);
     return userData;
 
 
+});
+
+final fetchAllUserProvider = StreamProvider.family.autoDispose<List<UserModel?> , String>((ref, email) async* {
+  // Connect to an API using sockets, and decode the output
+  final snapshot = await FirebaseAppStorage.fireStore.collection('Users').where('email', isNotEqualTo:  email).get();
+    yield snapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList();
+    
 });
