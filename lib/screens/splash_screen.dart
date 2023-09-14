@@ -23,8 +23,8 @@ class _SplashScreenState extends State<SplashScreen>
     animationController?.forward();
     Timer(const Duration(seconds: 3), () {
       // Navigate to the next screen after the animation completes
-      User? user = FirebaseAuthService.auth.currentUser;
-      if (user != null) {
+      
+      if (AppConstant.user != null) {
        
         Navigator.of(context)
             .pushNamedAndRemoveUntil('/HomeScreen', (route) => false);

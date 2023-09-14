@@ -6,8 +6,10 @@ class PageTemplate2 extends StatefulWidget {
    final Widget ? bottomText;
    final AppBar ? appBar;
    final Drawer ? drawer;
+   final Widget ? bottomWidget;
+   final ScrollPhysics? physics;
    final GlobalKey<ScaffoldState> ? formkey;
-   const PageTemplate2({super.key, this.child, this.bottomText, this.appBar, this.drawer, this.formkey});
+   const PageTemplate2({super.key, this.child, this.bottomText, this.appBar, this.drawer, this.formkey, this.physics, this.bottomWidget});
 
   @override
   State<PageTemplate2> createState() => _PageTemplate2State();
@@ -27,6 +29,7 @@ class _PageTemplate2State extends State<PageTemplate2> {
         backgroundColor: Colors.transparent,
         // bottomNavigationBar: widget.bottomText,
         appBar: widget.appBar,
+        bottomSheet: widget.bottomWidget ,
         body: Stack(
           alignment: Alignment.center,
           children: [
@@ -52,6 +55,7 @@ class _PageTemplate2State extends State<PageTemplate2> {
                 ),
                 child: ListView(
                   shrinkWrap: true,
+                  physics: widget.physics,
                   clipBehavior: Clip.none,
                   children: [
                     

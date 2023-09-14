@@ -1,9 +1,5 @@
-
-
-import 'dart:developer';
-
 import 'package:chat_app/providers/user_info_provider.dart';
-import 'package:chat_app/widgets/message_user_display.dart';
+
 import '../export_all.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -61,23 +57,30 @@ class HomeScreen extends StatelessWidget {
             child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
-                itemBuilder: (context, index) => Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                         OnlineUserWidget(
-                          imageUrl: users[index]!.imageUrl,
-                          isOnline: users[index]!.isOnline,
-                        ),
-                        5.verticalSpace,
-                        Text(
-                          users[index]!.username!,
-                          style: AppStyle.headStyle3,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        )
-                      ],
-                    ),
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context) => MessagingScreen(
+                    userActive:users[index]!.isOnline ,
+                    userImageUrl: users[index]!.imageUrl,
+                    username: users[index]!.username,
+                  ),)),
+                  child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                           OnlineUserWidget(
+                            imageUrl: users[index]!.imageUrl!,
+                            isOnline: users[index]!.isOnline!,
+                          ),
+                          5.verticalSpace,
+                          Text(
+                            users[index]!.username!,
+                            style: AppStyle.headStyle3,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          )
+                        ],
+                      ),
+                ),
                 separatorBuilder: (context, index) => 5.horizontalSpace,
                 itemCount: users.length),
           );

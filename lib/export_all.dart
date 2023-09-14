@@ -4,6 +4,8 @@ export 'screens/login_screen.dart';
 export 'screens/signup_screen.dart';
 export 'screens/home_screen.dart';
 export 'screens/profile_screen.dart';
+export 'screens/messaging_screen.dart';
+
 
 
 
@@ -34,7 +36,7 @@ export '../widgets/button_widget.dart';
 export '../widgets/page_template2.dart';
 export '../widgets/online_user_widget.dart';
 export '../widgets/profile_upload_widget.dart';
-
+export 'widgets/message_user_display.dart';
 
 //SERVICES
 export 'package:chat_app/services/firebase_app_service.dart';

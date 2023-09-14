@@ -61,7 +61,9 @@ class FirebaseAppStorage {
   // final storageRef = FirebaseStorage.instance.ref();
 
   static final fireStore = FirebaseFirestore.instance;
-  static  String uid = FirebaseAuthService.auth.currentUser!.uid;
+  static String uid = AppConstant.user!.uid;
+
+  //UPLOAD IMAGE FUNCTION OF PROFILE
   static Future<String> uploadImage(File imageFile) async {
     String imageUrl = "";
     String fileName = imageFile.path.split('/').last;
@@ -69,50 +71,102 @@ class FirebaseAppStorage {
     UploadTask uploadTask = ref.putFile(File(imageFile.path));
     TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
     await taskSnapshot.ref.getDownloadURL().then((value) => imageUrl = value);
-    return imageUrl; 
+    return imageUrl;
     // print(imageUrl);
   }
- 
-  static Future saveProfile(File ? imageFile, String username, email, BuildContext context)async{
+
+  //UPDATE CREATE PROFILE
+  static Future saveProfile(
+      File? imageFile, String username, email, BuildContext context) async {
     AppConstant.showloader(context);
-      FirebaseAppStorage.uploadImage(imageFile!).then((value){
-      
-    fireStore.collection('Users').doc(uid).set({
-      'userImageUrl' : value,
-      'username' : username,
-      'email' : email
-    }).then((value) => {
-      FirebaseAppStorage.fireStore.collection('users').get().then((value) {
-        if(value.docs.isNotEmpty){
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const HomeScreen(),), (route) => false);
-        }
-            }     
-)
-      // AppConstant.messageDialog('User Profile Successfully updated')
-
-    }).onError((error, stackTrace) => {
-      
-      AppConstant.messageDialog(error.toString())
+    FirebaseAppStorage.uploadImage(imageFile!).then((value) {
+      fireStore
+          .collection('Users')
+          .doc(uid)
+          .set({'userImageUrl': value, 'username': username, 'email': email})
+          .then((value) => {
+                FirebaseAppStorage.fireStore
+                    .collection('users')
+                    .get()
+                    .then((value) {
+                  if (value.docs.isNotEmpty) {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomeScreen(),
+                        ),
+                        (route) => false);
+                  }
+                })
+                // AppConstant.messageDialog('User Profile Successfully updated')
+              })
+          .onError((error, stackTrace) =>
+              {AppConstant.messageDialog(error.toString())});
     });
-    });
-    
+  }
 
+  //UPDATE USER PROFILE
+  static Future updateProfile(
+      File? imageFile, String username, email, BuildContext context) async {
+    AppConstant.showloader(context);
+    if (imageFile != null) {
+      FirebaseAppStorage.uploadImage(imageFile).then((value) {
+        fireStore
+            .collection('Users')
+            .doc(uid)
+            .set({'userImageUrl': value, 'username': username,})
+            .then((value) => {
+                  FirebaseAppStorage.fireStore
+                      .collection('users')
+                      .get()
+                      .then((value) {
+                    if (value.docs.isNotEmpty) {
+                                       Navigator.of(context)..pop()..pop();
+
+                    }
+                  })
+                  // AppConstant.messageDialog('User Profile Successfully updated')
+                })
+            .onError((error, stackTrace) =>
+                {AppConstant.messageDialog(error.toString())});
+      });
+    }
+    else{
+      fireStore
+            .collection('Users')
+            .doc(uid)
+            .update({
+              'username': username,
+            })
+            .then((value) => {
+                 Navigator.of(context)..pop()..pop()
+                  // AppConstant.messageDialog('User Profile Successfully updated')
+                })
+            .onError((error, stackTrace) =>
+                {AppConstant.messageDialog(error.toString())});
+    }
   }
 
   //FETCH LOGIN USER DATA
-  static Future<UserModel?> getUserData(String email) async{
-    final snapshot = await fireStore.collection('users').where('email', isEqualTo:  email).get();
+  static Future<UserModel?> getUserData(String email) async {
+    final snapshot = await fireStore
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get();
     final userData = snapshot.docs.map((e) => UserModel.fromSnapshot(e)).single;
     return userData;
   }
 
   //FETCH ALL USER DATA
 
-  static Future<List<UserModel?> ?> getAllUser(String email)async{
-    final snapshot = await fireStore.collection('users').where('email', isNotEqualTo: email).get();
-    final userList = snapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList();
+  static Future<List<UserModel?>?> getAllUser(String email) async {
+    final snapshot = await fireStore
+        .collection('users')
+        .where('email', isNotEqualTo: email)
+        .get();
+    final userList =
+        snapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList();
 
     return userList;
   }
-
 }

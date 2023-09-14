@@ -1,7 +1,4 @@
-import 'dart:developer';
 import 'dart:io';
-
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/export_all.dart';
 
@@ -26,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.imageUrl != null) {
+    if (widget.imageUrl != null  &&  widget.isEdit!) {
       selectImagePath = widget.imageUrl.toString();
     }
   }
@@ -39,7 +36,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
     }
   }
-
+  @override
+  void dispose() {
+    emailTextController.dispose();
+    firstNameTextController.dispose();
+    lastNameTextController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return PageTemplate2(
@@ -75,7 +78,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 imageBuilder: (context, imageProvider) => CircleAvatar(
                 backgroundImage: imageProvider,
                 radius: 60.r,
-
               ),
               errorWidget: (context, url, error) => CircleAvatar(
                 backgroundImage: AssetImage('${AppConstant.imagePath}user_avatar.jpg'),
@@ -90,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               )
 
               ],
-              
+              if(!selectImagePath!.contains('http'))
               CircleAvatar(
                 radius: 60.r,
                 backgroundImage: 
@@ -164,7 +166,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         30.verticalSpace,
         CustomButtonAndroid(
-          buttonText: widget.isEdit == null ? "Save" : "Create",
+          buttonText: widget.isEdit != null ? "Save" : "Create",
           onTap: () async {
             if (widget.isEdit != null && widget.isEdit == false) {
               FirebaseAppStorage.saveProfile(
@@ -173,8 +175,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   emailTextController.text,
                   context);
             } else {
-               FirebaseAppStorage.getUserData(emailTextController.text).then((value) => debugPrint(
-                value.toString()));      
+               FirebaseAppStorage.updateProfile(selectImagePath!.contains('http') ? null : File(selectImagePath!),  '${firstNameTextController.text.trim()} ${lastNameTextController.text.trim()}', emailTextController.text, context);   
             }
           },
           height: 40.h,

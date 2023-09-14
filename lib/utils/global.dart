@@ -3,6 +3,9 @@ import 'package:flutter/services.dart';
 import '../export_all.dart';
 
 class AppConstant {
+  //Firebase Current User on Device
+  static final User? user = FirebaseAuthService.auth.currentUser;
+
   //assets Path
   static String imagePath = "assets/";
 
