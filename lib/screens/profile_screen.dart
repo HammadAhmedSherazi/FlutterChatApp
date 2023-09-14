@@ -92,7 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               )
 
               ],
-              if(!selectImagePath!.contains('http'))
+              if( selectImagePath ==null || !selectImagePath!.contains('http'))
               CircleAvatar(
                 radius: 60.r,
                 backgroundImage: 
@@ -106,7 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onPressed: () {
                         pickImage();
                       },
-                      icon: CircleAvatar(
+                      icon: selectImagePath != null ? CircleAvatar(
                         radius: 20.r,
                         backgroundColor: ColorsApp.kButtonColor,
                         child: Icon(
@@ -114,7 +114,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           size: selectImagePath != null ? 22.r : 50.r,
                           color: Colors.white,
                         ),
-                      )))
+                      ): Icon(
+                          Icons.camera_alt_sharp,
+                          size: selectImagePath != null ? 22.r : 50.r,
+                          color: Colors.white,
+                        )))
             ],
           ),
         ),

@@ -7,7 +7,7 @@ class UserModel {
   final String? email;
   final bool? isOnline;
   final String? token;
-  final String? createTime;
+  final int? createTime;
   final String? createDate;
   final String? lastOnlineTime;
   final List<String?> ? friends;

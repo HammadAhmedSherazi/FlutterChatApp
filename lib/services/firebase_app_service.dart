@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:intl/intl.dart';
 import '../export_all.dart';
 
 class FirebaseAppService {
@@ -10,6 +11,7 @@ class FirebaseAppService {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+   AppConstant.deviceToken =  await FirebaseMessaging.instance.getToken();
   }
 }
 
@@ -62,6 +64,9 @@ class FirebaseAppStorage {
 
   static final fireStore = FirebaseFirestore.instance;
   static String uid = AppConstant.user!.uid;
+  static String currentDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  static int currentTime = DateTime.now().millisecondsSinceEpoch;
+  
 
   //UPLOAD IMAGE FUNCTION OF PROFILE
   static Future<String> uploadImage(File imageFile) async {
@@ -80,13 +85,15 @@ class FirebaseAppStorage {
       File? imageFile, String username, email, BuildContext context) async {
     AppConstant.showloader(context);
     FirebaseAppStorage.uploadImage(imageFile!).then((value) {
+     final UserModel user = UserModel(uid, username, value, email, false, AppConstant.deviceToken,FirebaseAppStorage.currentDate , FirebaseAppStorage.currentTime, [], [], null, []);
       fireStore
           .collection('Users')
           .doc(uid)
-          .set({'userImageUrl': value, 'username': username, 'email': email})
+          .set(user.toJson())
+          // .set({'userImageUrl': value, 'username': username, 'email': email})
           .then((value) => {
                 FirebaseAppStorage.fireStore
-                    .collection('users')
+                    .collection('Users')
                     .get()
                     .then((value) {
                   if (value.docs.isNotEmpty) {
