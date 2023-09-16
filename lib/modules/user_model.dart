@@ -45,11 +45,11 @@ class UserModel {
     data['isOnline'] = isOnline;
     data['token'] = token;
     data['createTime'] = createTime;
-      data['createDate'] = createDate;
-      data['lastOnlineTime'] = lastOnlineTime;
-      data['friends']  = friends;
-      data['friendRequests'] = friendRequests;
-      data['notification'] = notification;
+    data['createDate'] = createDate;
+    data['lastOnlineTime'] = lastOnlineTime;
+    data['friends']  = friends;
+    data['friendRequests'] = friendRequests;
+    data['notification'] = notification;
 
     return data;
   }
