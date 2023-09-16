@@ -25,6 +25,7 @@ class _SplashScreenState extends State<SplashScreen>
       // Navigate to the next screen after the animation completes
       
       if (AppConstant.user != null) {
+    
        
         Navigator.of(context)
             .pushNamedAndRemoveUntil('/HomeScreen', (route) => false);

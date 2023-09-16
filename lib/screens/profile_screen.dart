@@ -172,7 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         CustomButtonAndroid(
           buttonText: widget.isEdit != null ? "Save" : "Create",
           onTap: () async {
-            if (widget.isEdit != null && widget.isEdit == false) {
+            if (widget.isEdit == null ) {
               FirebaseAppStorage.saveProfile(
                   File(selectImagePath!),
                   '${firstNameTextController.text.trim()} ${lastNameTextController.text.trim()}',

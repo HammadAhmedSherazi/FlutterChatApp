@@ -51,8 +51,8 @@ class HomeScreen extends StatelessWidget {
             loading: () => const SizedBox.shrink(),
             error: (error, stackTrace) => Text(error.toString()),
             data : (users){
-              // log(users.toString());
-              return SizedBox(
+              
+              return users.isNotEmpty  ? SizedBox(
             height: 100.h,
             child: ListView.separated(
                 scrollDirection: Axis.horizontal,
@@ -83,7 +83,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 separatorBuilder: (context, index) => 5.horizontalSpace,
                 itemCount: users.length),
-          );
+          ) : const SizedBox.square();
         
             }
           );

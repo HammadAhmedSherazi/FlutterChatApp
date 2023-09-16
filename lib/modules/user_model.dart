@@ -26,7 +26,7 @@ class UserModel {
       data['email'] ?? '', // Replace 'email' with the field name in your Firestore document,
       data['isOnline'] ?? false,
       data['token'] ?? '',
-      data['createTime'] ?? '',
+      data['createTime'] ,
       data['createDate'] ?? '',
       data['lastOnlineTime'] ?? '',
       data['friends'] ?? [],

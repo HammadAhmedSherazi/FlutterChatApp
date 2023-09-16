@@ -96,7 +96,9 @@ class FirebaseAppStorage {
                     .collection('Users')
                     .get()
                     .then((value) {
-                  if (value.docs.isNotEmpty) {
+                  if (value.docs.isNotEmpty)  {
+                    AppConstant.user =  FirebaseAppStorage.fireStore.collection('Users').doc(uid).get();
+                    
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
@@ -124,11 +126,11 @@ class FirebaseAppStorage {
             .set({'userImageUrl': value, 'username': username,})
             .then((value) => {
                   FirebaseAppStorage.fireStore
-                      .collection('users')
+                      .collection('Users')
                       .get()
                       .then((value) {
                     if (value.docs.isNotEmpty) {
-                                       Navigator.of(context)..pop()..pop();
+                       Navigator.of(context)..pop()..pop();
 
                     }
                   })

@@ -25,7 +25,7 @@ final fetchUserProvider = FutureProvider.family<UserModel , String>((ref, uid) a
 
 final fetchAllUserProvider = StreamProvider.family.autoDispose<List<UserModel?> , String>((ref, email) async* {
   // Connect to an API using sockets, and decode the output
-  final snapshot = await FirebaseAppStorage.fireStore.collection('Users').where('email', isNotEqualTo:  email).get();
+  final snapshot = await FirebaseAppStorage.fireStore.collection('Users').where('email', isEqualTo:  email).get();
     yield snapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList();
     
 });

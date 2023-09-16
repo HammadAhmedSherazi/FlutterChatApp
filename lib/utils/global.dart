@@ -7,7 +7,7 @@ class AppConstant {
   static late final String? deviceToken;
 
   //Firebase Current User on Device
-  static final User? user = FirebaseAuthService.auth.currentUser;
+  static  dynamic user = FirebaseAuthService.auth.currentUser;
 
   //assets Path
   static String imagePath = "assets/";
