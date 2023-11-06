@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chat_app/providers/user_info_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:intl/intl.dart';
@@ -82,10 +83,10 @@ class FirebaseAppStorage {
 
   //UPDATE CREATE PROFILE
   static Future saveProfile(
-      File? imageFile, String username, email, BuildContext context) async {
+      File? imageFile, String firstName,String lastName, String username ,String email, BuildContext context) async {
     AppConstant.showloader(context);
     FirebaseAppStorage.uploadImage(imageFile!).then((value) {
-     final UserModel user = UserModel(uid, username, value, email, false, AppConstant.deviceToken,FirebaseAppStorage.currentDate , FirebaseAppStorage.currentTime, [], [], null, []);
+     final UserModel user = UserModel(uid, username, firstName , lastName,value, email, false, AppConstant.deviceToken,FirebaseAppStorage.currentDate , FirebaseAppStorage.currentTime, [], [], null, []);
       fireStore
           .collection('Users')
           .doc(uid)
@@ -116,25 +117,41 @@ class FirebaseAppStorage {
 
   //UPDATE USER PROFILE
   static Future updateProfile(
-      File? imageFile, String username, email, BuildContext context) async {
+      File? imageFile, String username, email, BuildContext context, WidgetRef ref) async {
     AppConstant.showloader(context);
     if (imageFile != null) {
       FirebaseAppStorage.uploadImage(imageFile).then((value) {
         fireStore
             .collection('Users')
             .doc(uid)
-            .set({'userImageUrl': value, 'username': username,})
+            .update({'userImageUrl': value, 'username': username,})
             .then((value) => {
                   FirebaseAppStorage.fireStore
                       .collection('Users')
                       .get()
                       .then((value) {
                     if (value.docs.isNotEmpty) {
-                       Navigator.of(context)..pop()..pop();
+                    
+                      FirebaseAppStorage.fireStore.collection('Users').doc(uid).get().then((value){
+                        
+
+                     
+                       ref.watch(userInfoProvider.notifier).setUser(UserModel.fromSnapshot(value));
+                        Navigator.of(context).pop();
+                      });
+                       
+                      
+                      AppConstant.messageDialog('Profile Successfully updated');
+
+
+
+                    }
+                    else{
+                      Navigator.of(context).pop();
+
 
                     }
                   })
-                  // AppConstant.messageDialog('User Profile Successfully updated')
                 })
             .onError((error, stackTrace) =>
                 {AppConstant.messageDialog(error.toString())});
@@ -148,8 +165,13 @@ class FirebaseAppStorage {
               'username': username,
             })
             .then((value) => {
-                 Navigator.of(context)..pop()..pop()
-                  // AppConstant.messageDialog('User Profile Successfully updated')
+                 FirebaseAppStorage.fireStore.collection('Users').doc(uid).get().then((value){
+                        
+
+                     
+                       ref.watch(userInfoProvider.notifier).setUser(UserModel.fromSnapshot(value));
+                        Navigator.of(context).pop();
+                      })
                 })
             .onError((error, stackTrace) =>
                 {AppConstant.messageDialog(error.toString())});

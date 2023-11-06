@@ -1,3 +1,7 @@
+
+
+import 'dart:developer';
+
 import 'package:chat_app/providers/user_info_provider.dart';
 
 import '../export_all.dart';
@@ -47,6 +51,8 @@ class HomeScreen extends StatelessWidget {
         Consumer(builder: (context, ref, child) {
           final onlineUser =
               ref.watch(fetchAllUserProvider(FirebaseAuthService.auth.currentUser!.email!));
+
+            
           return onlineUser.when(
             loading: () => const SizedBox.shrink(),
             error: (error, stackTrace) => Text(error.toString()),
@@ -70,6 +76,7 @@ class HomeScreen extends StatelessWidget {
                            OnlineUserWidget(
                             imageUrl: users[index]!.imageUrl!,
                             isOnline: users[index]!.isOnline!,
+                            
                           ),
                           5.verticalSpace,
                           Text(
@@ -119,16 +126,21 @@ class HomeScreen extends StatelessWidget {
             builder: (context, ref, child) {
               final AsyncValue userDataProvider =
                   ref.watch(fetchUserProvider(FirebaseAppStorage.uid));
+              final user = ref.watch(userInfoProvider);
               return userDataProvider.when(
                 data: (data) {
-                  return Expanded(
+                  Future.delayed(Duration.zero,(){
+                    ref.read(userInfoProvider.notifier).setUser(data);
+                  });
+                  log('test');
+                  return user != null ? Expanded(
                     flex: 3,
                     child: Stack(
                       alignment: Alignment.center,
                       clipBehavior: Clip.none,
                       children: [
                         OnlineUserWidget(
-                          imageUrl: data.imageUrl,
+                          imageUrl: user.imageUrl!,
                           radius: 60.r,
                           isOnline: true,
                         ),
@@ -138,12 +150,14 @@ class HomeScreen extends StatelessWidget {
                             shape: const CircleBorder(),
                             padding: EdgeInsets.all(20.r),
                             onPressed: () {
+                              // final UserModel _user = user;
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>  ProfileScreen(
                                       isEdit: true,
-                                      imageUrl: data.imageUrl,
+                                      imageUrl: user.imageUrl,
+                                       user: user,
                                       
                                     ),
                                   ));
@@ -191,7 +205,7 @@ class HomeScreen extends StatelessWidget {
                             ))
                       ],
                     ),
-                  );
+                  ) : profileLoaderWidget(context);
                 },
                 error: (error, stackTrace) => profileLoaderWidget(context),
                 loading: () => profileLoaderWidget(context),

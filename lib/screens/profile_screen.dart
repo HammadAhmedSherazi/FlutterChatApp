@@ -5,7 +5,8 @@ import 'package:chat_app/export_all.dart';
 class ProfileScreen extends StatefulWidget {
   final String? imageUrl;
   final bool? isEdit;
-  const ProfileScreen({super.key, this.imageUrl, this.isEdit});
+  final UserModel ? user;
+  const ProfileScreen({super.key, this.imageUrl, this.isEdit, this.user});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -25,7 +26,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     if (widget.imageUrl != null  &&  widget.isEdit!) {
       selectImagePath = widget.imageUrl.toString();
+      firstNameTextController.text = widget.user!.firstName!;
+      lastNameTextController.text = widget.user!.lastName!;
     }
+  
   }
 
   pickImage() async {
@@ -34,6 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         selectImagePath = pickedFile.path;
       });
+      
     }
   }
   @override
@@ -92,13 +97,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               )
 
               ],
-              if( selectImagePath ==null || !selectImagePath!.contains('http'))
-              CircleAvatar(
+              if( selectImagePath ==null || !selectImagePath!.contains('http'))...[
+                CircleAvatar(
                 radius: 60.r,
                 backgroundImage: 
                selectImagePath != null && !selectImagePath!.contains('http') ?  FileImage(File(selectImagePath!))
                     : null,
               ),
+              ],
+              
               Positioned(
                   bottom: (selectImagePath != null) ? 10 : null,
                   right: (selectImagePath != null) ? -8 : null,
@@ -169,20 +176,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
           isPassword: false,
         ),
         30.verticalSpace,
-        CustomButtonAndroid(
-          buttonText: widget.isEdit != null ? "Save" : "Create",
-          onTap: () async {
-            if (widget.isEdit == null ) {
-              FirebaseAppStorage.saveProfile(
-                  File(selectImagePath!),
-                  '${firstNameTextController.text.trim()} ${lastNameTextController.text.trim()}',
-                  emailTextController.text,
-                  context);
-            } else {
-               FirebaseAppStorage.updateProfile(selectImagePath!.contains('http') ? null : File(selectImagePath!),  '${firstNameTextController.text.trim()} ${lastNameTextController.text.trim()}', emailTextController.text, context);   
-            }
-          },
-          height: 40.h,
+        Consumer(
+          builder: (context, ref, child)  {
+            return CustomButtonAndroid(
+              buttonText: widget.isEdit != null ? "Save" : "Create",
+              onTap: () async {
+                if (widget.isEdit == null ) {
+                  FirebaseAppStorage.saveProfile(
+                      File(selectImagePath!),
+                      firstNameTextController.text.trim(),
+                      lastNameTextController.text.trim(),
+                      '${firstNameTextController.text.trim()} ${lastNameTextController.text.trim()}',
+                      emailTextController.text,
+                      context);
+                } else  {
+
+
+                   FirebaseAppStorage.updateProfile(selectImagePath!.contains('http') ? null : File(selectImagePath!),  '${firstNameTextController.text.trim()} ${lastNameTextController.text.trim()}', emailTextController.text, context, ref);
+                    
+                     
+                }
+              },
+              height: 40.h,
+            );
+          }
         )
       ],
     );

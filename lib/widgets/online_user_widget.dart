@@ -33,15 +33,18 @@ class OnlineUserWidget extends StatelessWidget {
               ),
             ),
             if(isOnline)
-            Positioned(
-                bottom: 3,
-                right: 5,
+            ...[
+              Positioned(
+                bottom: 5,
+                right: 10,
                 child: Icon(
                   Icons.circle,
                   color: Colors.green,
-                  size: 15.r,
+                  size: 20.r,
                 ))
-          ],
+  
+            ]
+                    ],
         ),
         10.horizontalSpace
       ],
